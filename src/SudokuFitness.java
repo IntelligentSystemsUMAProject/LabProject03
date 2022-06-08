@@ -1,7 +1,4 @@
-import java.util.Random;
-
 import org.jgap.FitnessFunction;
-import org.jgap.Gene;
 import org.jgap.IChromosome;
 
 public class SudokuFitness extends FitnessFunction {
@@ -17,11 +14,8 @@ public class SudokuFitness extends FitnessFunction {
 	 */
 	@Override
 	protected double evaluate(IChromosome a_subject) {
-		Gene[] genes = a_subject.getGenes();
-		for (Gene g : genes) {
-			System.out.println(g.toString());
-		}
-		return new Random().nextDouble()*162;
+		// TODO;
+		return 0;
 	}
 
 }
