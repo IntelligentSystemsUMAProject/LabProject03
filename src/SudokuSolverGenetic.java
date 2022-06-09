@@ -83,7 +83,7 @@ public class SudokuSolverGenetic {
 
 		conf.setSampleChromosome(sampleChromosome);
 		conf.setPopulationSize(maxPopulation);
-		conf.setFitnessFunction(new SudokuFitness());
+		conf.setFitnessFunction(new SudokuFitness(geneRowMap, puzzle));
 		conf.setPreservFittestIndividual(true);
 		SudokuCrossover sudokuCrossover = new SudokuCrossover(conf, sudokuRowNumbersMap);
 		conf.addGeneticOperator(sudokuCrossover);
