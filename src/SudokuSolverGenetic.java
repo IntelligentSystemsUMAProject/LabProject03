@@ -39,7 +39,7 @@ public class SudokuSolverGenetic {
 		int chromosomeSize = 0;
 
 		Map<Tuple, Integer> geneRowMap = new HashMap<>();
-		Map<Integer, List<Integer>> sudokuRowNumbersMap = new HashMap<>();
+		Map<Integer, Set<Integer>> sudokuRowNumbersMap = new HashMap<>();
 
 		// to get puzzle;
 		int[] puzzle = mySudoku.getPuzzle();
@@ -47,14 +47,14 @@ public class SudokuSolverGenetic {
 		// Determining each gene size;
 		for (int i = 0; i < puzzle.length; i++) {
 			System.out.print(puzzle[i] + " ");
-			sudokuRowNumbersMap.putIfAbsent(i / 9, new ArrayList<Integer>());
+			sudokuRowNumbersMap.putIfAbsent(i / 9, new HashSet<Integer>());
 			MyFirstChromo.putIfAbsent(i / 9, new ArrayList<Integer>());
 			if (puzzle[i] == 0) {
 				rowSize[i / 9]++;
 				geneRowMap.put(new Tuple(i, chromosomeSize), i / 9);
 				chromosomeSize++;
 			} else {
-				List<Integer> values = sudokuRowNumbersMap.get(i / 9);
+				Set<Integer> values = sudokuRowNumbersMap.get(i / 9);
 				values.add(puzzle[i]);
 				sudokuRowNumbersMap.put(i / 9, values);
 			}
@@ -104,7 +104,7 @@ public class SudokuSolverGenetic {
 	}
 
 	private static Genotype generatePopulation(IChromosome sampleChromosome, Configuration conf,
-			Map<Tuple, Integer> geneRowMap, Map<Integer, List<Integer>> sudokuRowNumbersMap)
+			Map<Tuple, Integer> geneRowMap, Map<Integer, Set<Integer>> sudokuRowNumbersMap)
 			throws InvalidConfigurationException {
 		Genotype genotype;
 		Population population = new Population(conf, maxPopulation);
@@ -140,7 +140,7 @@ public class SudokuSolverGenetic {
 	}
 
 	private static int[] generateChromosome(int cromosomeSize, Map<Tuple, Integer> geneRowMap,
-			Map<Integer, List<Integer>> sudokuRowNumbersMap) {
+			Map<Integer, Set<Integer>> sudokuRowNumbersMap) {
 		int[] chromosomeArr = new int[cromosomeSize];
 		for (Entry<Tuple, Integer> entry : geneRowMap.entrySet()) {
 			int i = 1;

@@ -18,8 +18,8 @@ public class SudokuFitness extends FitnessFunction {
 	 */
 	@Override
 	protected double evaluate(IChromosome a_subject) {
-		
-		return (double) rand.nextInt(144) + 18;
+		// TODO;
+		return 0;
 	}
 
 }
