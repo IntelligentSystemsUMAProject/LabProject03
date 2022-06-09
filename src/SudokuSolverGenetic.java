@@ -85,12 +85,12 @@ public class SudokuSolverGenetic {
 		conf.setPopulationSize(maxPopulation);
 		conf.setFitnessFunction(new SudokuFitness(geneRowMap, puzzle));
 		conf.setPreservFittestIndividual(true);
-		SudokuCrossover sudokuCrossover = new SudokuCrossover(conf, sudokuRowNumbersMap);
+		SudokuCrossover sudokuCrossover = new SudokuCrossover(conf, geneRowMap, sampleChromosome);
 		conf.addGeneticOperator(sudokuCrossover);
 		Genotype population = generatePopulation(sampleChromosome, conf, geneRowMap, sudokuRowNumbersMap);
 
 // TODO Enable evolution when everything is ready;
-		boolean enableEvolution = false;
+		boolean enableEvolution = true;
 		if (enableEvolution) {
 			while (population.getFittestChromosome().getFitnessValue() != maxFitness) {
 				population.evolve();
