@@ -1,9 +1,13 @@
+import java.util.Random;
+
 import org.jgap.FitnessFunction;
 import org.jgap.IChromosome;
+import org.jgap.gp.function.RandomGenerator;
 
 public class SudokuFitness extends FitnessFunction {
 
 	private static final long serialVersionUID = -4467471883087959103L;
+	private Random rand = new Random();
 
 	/**
 	 * Since current implementation uses rows as chromosome we need to calculate the
@@ -14,8 +18,8 @@ public class SudokuFitness extends FitnessFunction {
 	 */
 	@Override
 	protected double evaluate(IChromosome a_subject) {
-		// TODO;
-		return 0;
+		
+		return (double) rand.nextInt(144) + 18;
 	}
 
 }
