@@ -1,7 +1,5 @@
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.jgap.FitnessFunction;
 import org.jgap.Gene;
@@ -20,7 +18,7 @@ public class SudokuFitness extends FitnessFunction {
 	 * 
 	 * @return fitness of the individual
 	 */
-	
+
 	public SudokuFitness(Map<Tuple, Integer> geneRowMap, int[] puzzle) {
 		this.geneRowMap = geneRowMap;
 		this.puzzle = puzzle;
@@ -31,10 +29,11 @@ public class SudokuFitness extends FitnessFunction {
 		Gene[] genes = a_subject.getGenes();
 		int[][] columnsArray = columnsArray(completePuzzle(genes));
 		int[][] regionsArray = regionsArray(completePuzzle(genes));
-		
-	    return fitnessColumn(columnsArray) + fitnessRegion(regionsArray);
+		double result = fitnessColumn(columnsArray) + fitnessRegion(regionsArray);
+		//System.out.println(result);
+		return result;
 	}
-	
+
 	private int[] completePuzzle(Gene[] genes) {
 		int geneNumber = 0;
 		int gene = 0;
@@ -49,37 +48,37 @@ public class SudokuFitness extends FitnessFunction {
 				puzzle[i] = gene;
 			}
 		}
-		
+
 		return puzzle;
 	}
-	
+
 	private int[][] columnsArray(int[] puzzle) {
 		int[][] doubleArray = new int[9][9];
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-            	doubleArray[i][j] = puzzle[i + 9 * j];
-            }
-        }
-		
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				doubleArray[i][j] = puzzle[i + 9 * j];
+			}
+		}
+
 		return doubleArray;
 	}
-	
+
 	private int[][] regionsArray(int[] puzzle) {
 		int[][] regionsArray = new int[9][9];
 		for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 3; j++) {
-                for (int k = 0; k < 3; k++) {
-                	regionsArray[i][k + j * 3] = puzzle[(3 * (i % 3) + k + (j + i / 3 * 3) * 9)];
-                }
-            }
-        }
-		
+			for (int j = 0; j < 3; j++) {
+				for (int k = 0; k < 3; k++) {
+					regionsArray[i][k + j * 3] = puzzle[(3 * (i % 3) + k + (j + i / 3 * 3) * 9)];
+				}
+			}
+		}
+
 		return regionsArray;
 	}
 
 	private int fitnessColumn(int[][] columnsArray) {
 		int result = 1;
-		
+
 		for (int j = 0; j < columnsArray.length; j++) {
 			for (int i = 1; i < columnsArray.length; i++) {
 				int k;
@@ -88,19 +87,19 @@ public class SudokuFitness extends FitnessFunction {
 						break;
 					}
 				}
-				
+
 				if (i == k) {
 					result++;
 				}
 			}
 		}
-		
+
 		return result;
 	}
-	
+
 	private int fitnessRegion(int[][] regionsArray) {
 		int result = 1;
-		
+
 		for (int j = 0; j < regionsArray.length; j++) {
 			for (int i = 1; i < regionsArray.length; i++) {
 				int k;
@@ -109,13 +108,13 @@ public class SudokuFitness extends FitnessFunction {
 						break;
 					}
 				}
-				
+
 				if (i == k) {
 					result++;
 				}
 			}
 		}
-		
+
 		return result;
 	}
 
