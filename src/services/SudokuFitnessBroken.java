@@ -1,3 +1,5 @@
+package services;
+
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -5,7 +7,7 @@ import org.jgap.FitnessFunction;
 import org.jgap.Gene;
 import org.jgap.IChromosome;
 
-public class SudokuFitness extends FitnessFunction {
+public class SudokuFitnessBroken extends FitnessFunction {
 
 	private static final long serialVersionUID = -4467471883087959103L;
 	private Map<Tuple, Integer> geneRowMap;
@@ -19,7 +21,7 @@ public class SudokuFitness extends FitnessFunction {
 	 * @return fitness of the individual
 	 */
 
-	public SudokuFitness(Map<Tuple, Integer> geneRowMap, int[] puzzle) {
+	public SudokuFitnessBroken(Map<Tuple, Integer> geneRowMap, int[] puzzle) {
 		this.geneRowMap = geneRowMap;
 		this.puzzle = puzzle;
 	}
@@ -30,7 +32,7 @@ public class SudokuFitness extends FitnessFunction {
 		int[][] columnsArray = columnsArray(completePuzzle(genes));
 		int[][] regionsArray = regionsArray(completePuzzle(genes));
 		double result = fitnessColumn(columnsArray) + fitnessRegion(regionsArray);
-		//System.out.println(result);
+		// System.out.println(result);
 		return result;
 	}
 

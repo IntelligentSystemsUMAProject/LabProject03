@@ -1,3 +1,5 @@
+package services;
+
 import java.util.Objects;
 
 /**
@@ -6,9 +8,8 @@ import java.util.Objects;
  * position has sequential number 0;
  * 
  * @author panva
- *
  */
-public class Tuple {
+public class Tuple implements Comparable<Tuple> {
 
 	private int cellNumber;
 	private int geneNumber;
@@ -54,6 +55,11 @@ public class Tuple {
 	@Override
 	public String toString() {
 		return "(cell:gene)->(" + cellNumber + ":" + geneNumber + ")";
+	}
+
+	@Override
+	public int compareTo(Tuple o) {
+		return Integer.compare(this.geneNumber, o.getGeneNumber());
 	}
 
 }
