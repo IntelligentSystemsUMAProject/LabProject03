@@ -3,6 +3,7 @@ package main;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 
 import org.jgap.Chromosome;
 import org.jgap.Configuration;
@@ -23,8 +24,8 @@ import services.*;
 public class SudokuSolverGenetic {
 
 	public static final int maxFitness = 162;
-	public static int maxPopulation = 1000;
-	public static int iterNum = 1000;
+	public static int maxPopulation = 600;
+	public static int maxIterations = 300;
 
 	public static void main(String[] args) throws InvalidConfigurationException, FileNotFoundException {
 		PrintStream output = new PrintStream(new File("output.txt"));
@@ -74,13 +75,18 @@ public class SudokuSolverGenetic {
 
 		Genotype population = gp.generatePopulation();
 
+		PrintWriter stats = new PrintWriter(new File("stats.csv"));
+		stats.println("sep=,");
+		stats.println("Iteration,Best Fitness,Average Fitness,Best Fitness Percentage");
 		// Enable evolution when everything is ready;
 		boolean enableEvolution = true;
 		double fitness = 0;
+		int iterationCounter = 0;
 		if (enableEvolution) {
-			while (population.getFittestChromosome().getFitnessValue() != maxFitness && iterNum > 0) {
-				population.evolve();
+			while (population.getFittestChromosome().getFitnessValue() != maxFitness && maxIterations > iterationCounter) {
 				double currMaxFitness = population.getFittestChromosome().getFitnessValue();
+				stats.println(iterationCounter + "," + currMaxFitness + "," + gp.getAveragePopulationFitness(population.getPopulation().toChromosomes()) + "," + (currMaxFitness / maxFitness) * 100);
+				population.evolve();
 				if (currMaxFitness > fitness) {
 					fitness = currMaxFitness;
 					System.out.println("Fittest individual has: " + fitness + " points");
@@ -88,11 +94,13 @@ public class SudokuSolverGenetic {
 					System.out.println("Fittest individual has: " + fitness + " points");
 					switchToConsole(console);
 				}
-				iterNum--;
+				iterationCounter++;
 			}
 		}
-		System.out.println(
-				"Best individual found has " + population.getFittestChromosome().getFitnessValue() + " points.");
+		stats.close();
+
+		// Printing final results into console
+		System.out.println("Best individual found has " + population.getFittestChromosome().getFitnessValue() + " points.");
 		System.out.println();
 		System.out.println("One of the solutions:");
 		mySudoku.solve();
@@ -101,9 +109,9 @@ public class SudokuSolverGenetic {
 		System.out.println("Best approximation:");
 		mySudoku.printPuzzle();
 
+		// Printing final results into the file
 		switchToFile(output);
-		System.out.println(
-				"Best individual found has " + population.getFittestChromosome().getFitnessValue() + " points.");
+		System.out.println("Best individual found has " + population.getFittestChromosome().getFitnessValue() + " points.");
 		System.out.println();
 		System.out.println("One of the solutions:");
 		mySudoku.solve();

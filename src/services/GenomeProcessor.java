@@ -169,8 +169,7 @@ public class GenomeProcessor {
 		int[] chromosomeArr = new int[chromosomeSize];
 		for (Entry<Tuple, Integer> entry : geneRowMap.entrySet()) {
 			int i = 1;
-			while (sudokuRowNumbersMap.get(entry.getValue()).contains(i)
-					|| MyFirstChromo.get(entry.getValue()).contains(i)) {
+			while (sudokuRowNumbersMap.get(entry.getValue()).contains(i) || MyFirstChromo.get(entry.getValue()).contains(i)) {
 				i++;
 			}
 			chromosomeArr[entry.getKey().getGeneNumber()] = i;
@@ -199,6 +198,21 @@ public class GenomeProcessor {
 			}
 		}
 		return chromosome;
+	}
+
+	/**
+	 * Calculate the average fitness values of all individuums in current
+	 * population.
+	 * 
+	 * @param population array of instances IChromosome
+	 * @return average fitness
+	 */
+	public double getAveragePopulationFitness(IChromosome[] population) {
+		double averageFitness = 0;
+		for (IChromosome chromo : population) {
+			averageFitness += chromo.getFitnessValue();
+		}
+		return averageFitness / population.length;
 	}
 
 	/**
