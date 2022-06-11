@@ -151,7 +151,10 @@ public class GenomeProcessor {
 		IChromosome chromo = generateChromosome();
 		population.addChromosome(chromo);
 		// Cloning this chromosome maxPopulation times;
-		for (int i = 0; i < maxPopulation - 1; i++) {
+		// Creating on purpose larger number of chromosomes in order to have a pool to replace from
+		// Also big initial population, in theory improve chances to find good candidate faster.
+		// Rest will be dicarted after the first iteration
+		for (int i = 0; i < maxPopulation * 4; i++) {
 			IChromosome chromoClone = reproduceChromosome();
 			population.addChromosome(chromoClone);
 		}
