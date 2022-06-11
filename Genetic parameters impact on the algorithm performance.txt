@@ -1,0 +1,20 @@
+Genetic parameters impact on the algorithm performance
+We have analyzed the impact of the mutator rate, number of pairs to cross over, constant population size, elitism and the number of individuums that survive and pass to the next iteration.
+
+Number of Pairs
+First we can define the percentage of the current population that will produce offspring. It is defined at the  moment of creating the SudokuCrossover class, and passed as a 2nd parameter. 
+If left empty then a random amount of pairs will be created. Was noted empirically that setting this number relatively low, less than 50%, in general, has a negative impact on the final solution. Random, on the other hand, gives good results, and can be used. We opted to set that number on the higher end, 95%, to increase our chances to obtain good results. 
+
+Mutation rate
+We can define the mutation rate at the moment of creating the object SudokuMutator, as a 2nd parameter; if left blank, a random mutation rate will be chosen for each chromosome. 
+Empirical tests show that random mutation rate, in general, produces bad quality solutions. The same could be said about high mutation rates, above 15%. Currently we use a 5% mutation rate, which means a 5% chance to swap 2 numbers in the same row (which in reality is 2 changes at once). Mutation rate by itself is a very useful mechanism to “fix” minor irregularities in the genome.
+
+Constant population size
+Constant population size is a binary option and can be set by calling setKeepPopulationSize- Constant(choice : boolean). In general it doesn’t have much impact on the final result. We opted to set it to false, which allows the algorithm to fluctuate, if needed, the size of the population for each generation.
+
+Elitism
+Elitism is also a binary option that can be set by calling a method  setPreservFittestIndividual (choice : boolean). By setting this option to true you avoid the possibility of losing your best solution because it, by chance, couldn't pass to the next generation because of the mutation, or its offspring doesn’t have fitness high enough. We have it setted to true, ‘cause we consider it one of the key-factors to have a good solution. 
+
+Surviving rate
+The option can be setted up by calling the method addNaturalSelector(new BestChromosomes- Selector(conf, 0.25), false). We use provided by the library Best Chromosome selector which, in our case, allows to survive to the best 25 % of the population. Other 75% are taken from the chromosome pool. Which has 4 times more chromosomes than the actual population. In this way we introduce a high amount of “fresh blood” to each generation, increasing this way the chance of successful pairing. 
+Testing shows that this option doesn’t produce expected impact (or any?) to the algorithm performance. It may be due to the fact that the “fresh blood” is not that fresh, because we reuse the same chromosomes over and over again.
